@@ -38,7 +38,8 @@
       </div>
       <div class="section section-white">
         <div class="container">
-          <nav-pills></nav-pills>
+          <!-- <nav-pills></nav-pills> -->
+          <basic-elements></basic-elements>
         </div>
       </div>
       <!-- <div class="section section-notifications">
@@ -283,7 +284,7 @@ export default {
     // Navigation,
     // SmallNavigation,
     Tabs,
-    NavPills,
+    // NavPills,
     // Notifications,
     // TypographyImages,
     // JavascriptComponents,
