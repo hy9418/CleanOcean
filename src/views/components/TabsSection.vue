@@ -2,133 +2,52 @@
   <div class="wrapper">
     <div id="nav-tabs">
       <h3>活动广场</h3>
-      <div class="md-layout">
-        <div class="md-layout-item md-size-50 md-small-size-100">
-          <h3><small>活动标题1</small></h3>
-          <nav-tabs-card no-label>
-            <template slot="content">
-              <md-tabs class="md-primary" md-alignment="left">
-                <md-tab id="tab-home" md-label="活动主题" md-icon="face">
-                  <p>
-                    为了保护海岸线生态，招募志愿者参与指定海岸线的卫生维护
-                  </p>
-                </md-tab>
+      <div>
+        <carousel
+          :per-page="perPage"
+          loop
+          :speed="700"
+          :autoplay="false"
+          :autoplay-timeout="5000"
+          :minSwipeDistance="40"
+          :mouse-drag="false"
+          :paginationSize="1"
+          navigationEnabled
+          navigationNextLabel="<i class='material-icons'>》</i>"
+          navigationPrevLabel="<i class='material-icons'>《</i>"
+          @page-change="onPageChange"
+        >
+          <slide v-for="(item, index) in initList" :key="index">
+            <div class="md-layout-item md-size-150 md-small-size-100">
+              <h3>
+                <small>{{ item.name }}</small>
+              </h3>
+              <nav-tabs-card no-label>
+                <template slot="content">
+                  <md-tabs class="md-primary" md-alignment="left">
+                    <md-tab id="tab-home" :md-label="item.name">
+                      <p>
+                        {{ item.name }}
+                      </p>
+                    </md-tab>
 
-                <md-tab id="tab-pages" md-label="详情介绍" md-icon="chat">
-                  <p>
-                    I think that’s a responsibility that I have, to push
-                    possibilities, to show people, this is the level that things
-                    could be at. I will be the leader of a company that ends up
-                    being worth billions of dollars, because I got the answers.
-                    I understand culture. I am the nucleus. I think that’s a
-                    responsibility that I have, to push possibilities, to show
-                    people, this is the level that things could be at.
-                  </p>
-                </md-tab>
+                    <md-tab id="tab-pages" md-label="详情介绍">
+                      <p>
+                        {{ item.description }}
+                      </p>
+                    </md-tab>
 
-                <md-tab id="tab-posts" md-label="参与方式" md-icon="build">
-                  <p>
-                    I think that’s a responsibility that I have, to push
-                    possibilities, to show people, this is the level that things
-                    could be at. So when you get something that has the name
-                    Kanye West on it, it’s supposed to be pushing the furthest
-                    possibilities. I will be the leader of a company that ends
-                    up being worth billions of dollars, because I got the
-                    answers. I understand culture. I am the nucleus.
-                  </p>
-                </md-tab>
-              </md-tabs>
-            </template>
-          </nav-tabs-card>
-        </div>
-        <div class="md-layout-item md-size-50 md-small-size-100">
-          <h3><small>活动标题2</small></h3>
-          <nav-tabs-card no-label>
-            <template slot="content">
-              <md-tabs class="md-primary" md-alignment="left">
-                <md-tab id="tab-home" md-label="活动主题" md-icon="face">
-                  <p>
-                    I will be the leader of a company that ends up being worth
-                    billions of dollars, because I got the answers. I understand
-                    culture. I am the nucleus. I think that’s a responsibility
-                    that I have, to push possibilities, to show people, this is
-                    the level that things could be at. I think that’s a
-                    responsibility that I have, to push possibilities, to show
-                    people, this is the level that things could be at.
-                  </p>
-                </md-tab>
-
-                <md-tab id="tab-pages" md-label="详情介绍" md-icon="chat">
-                  <p>
-                    I think that’s a responsibility that I have, to push
-                    possibilities, to show people, this is the level that things
-                    could be at. I will be the leader of a company that ends up
-                    being worth billions of dollars, because I got the answers.
-                    I understand culture. I am the nucleus. I think that’s a
-                    responsibility that I have, to push possibilities, to show
-                    people, this is the level that things could be at.
-                  </p>
-                </md-tab>
-
-                <md-tab id="tab-posts" md-label="参与方式" md-icon="build">
-                  <p>
-                    I think that’s a responsibility that I have, to push
-                    possibilities, to show people, this is the level that things
-                    could be at. So when you get something that has the name
-                    Kanye West on it, it’s supposed to be pushing the furthest
-                    possibilities. I will be the leader of a company that ends
-                    up being worth billions of dollars, because I got the
-                    answers. I understand culture. I am the nucleus.
-                  </p>
-                </md-tab>
-              </md-tabs>
-            </template>
-          </nav-tabs-card>
-        </div>
-        <!-- <div class="md-layout-item md-size-50 md-small-size-100">
-          <h3><small>Tabs on Plain Card</small></h3>
-          <nav-tabs-card no-label tabs-plain>
-            <template slot="content">
-              <md-tabs class="md-danger" md-alignment="left">
-                <md-tab id="tab-home" md-label="Home">
-                  <p>
-                    I think that’s a responsibility that I have, to push
-                    possibilities, to show people, this is the level that things
-                    could be at. So when you get something that has the name
-                    Kanye West on it, it’s supposed to be pushing the furthest
-                    possibilities. I will be the leader of a company that ends
-                    up being worth billions of dollars, because I got the
-                    answers. I understand culture. I am the nucleus.
-                  </p>
-                </md-tab>
-
-                <md-tab id="tab-pages" md-label="Updates">
-                  <p>
-                    I will be the leader of a company that ends up being worth
-                    billions of dollars, because I got the answers. I understand
-                    culture. I am the nucleus. I think that’s a responsibility
-                    that I have, to push possibilities, to show people, this is
-                    the level that things could be at. I think that’s a
-                    responsibility that I have, to push possibilities, to show
-                    people, this is the level that things could be at.
-                  </p>
-                </md-tab>
-
-                <md-tab id="tab-posts" md-label="History">
-                  <p>
-                    I think that’s a responsibility that I have, to push
-                    possibilities, to show people, this is the level that things
-                    could be at. I will be the leader of a company that ends up
-                    being worth billions of dollars, because I got the answers.
-                    I understand culture. I am the nucleus. I think that’s a
-                    responsibility that I have, to push possibilities, to show
-                    people, this is the level that things could be at.
-                  </p>
-                </md-tab>
-              </md-tabs>
-            </template>
-          </nav-tabs-card>
-        </div> -->
+                    <md-tab id="tab-posts" md-label="参与方式">
+                      <p>
+                        {{ item.method }}
+                      </p>
+                    </md-tab>
+                  </md-tabs>
+                </template>
+              </nav-tabs-card>
+            </div>
+          </slide>
+        </carousel>
       </div>
     </div>
   </div>
@@ -140,6 +59,85 @@ import { NavTabsCard } from "@/components";
 export default {
   components: {
     NavTabsCard
+  },
+  data() {
+    return {
+      initList: [
+        {
+          id: 1,
+          name: "活动名称1",
+          filePath: "图片地址",
+          isDeleted: 0,
+          description: "活动描述",
+          method: "参与方式",
+          status: "UNDERWAY", //进行中UNDERWAY，已完成COMPLETED
+          taskTime: "yyyy-MM-dd HH:mm:ss", //活动开始时间
+          taskScore: 222 //活动积分
+        },
+        {
+          id: 2,
+          name: "活动名称2",
+          filePath: "图片地址",
+          isDeleted: 0,
+          description: "活动描述",
+          method: "参与方式",
+          status: "UNDERWAY", //进行中UNDERWAY，已完成COMPLETED
+          taskTime: "yyyy-MM-dd HH:mm:ss", //活动开始时间
+          taskScore: 222 //活动积分
+        },
+        {
+          id: 3,
+          name: "活动名称3",
+          filePath: "图片地址",
+          isDeleted: 0,
+          description: "活动描述",
+          method: "参与方式",
+          status: "UNDERWAY", //进行中UNDERWAY，已完成COMPLETED
+          taskTime: "yyyy-MM-dd HH:mm:ss", //活动开始时间
+          taskScore: 222 //活动积分
+        },
+        {
+          id: 4,
+          name: "活动名称4",
+          filePath: "图片地址",
+          isDeleted: 0,
+          description: "活动描述",
+          method: "参与方式",
+          status: "UNDERWAY", //进行中UNDERWAY，已完成COMPLETED
+          taskTime: "yyyy-MM-dd HH:mm:ss", //活动开始时间
+          taskScore: 222 //活动积分
+        },
+        {
+          id: 5,
+          name: "活动名称5",
+          filePath: "图片地址",
+          isDeleted: 0,
+          description: "活动描述",
+          method: "参与方式",
+          status: "UNDERWAY", //进行中UNDERWAY，已完成COMPLETED
+          taskTime: "yyyy-MM-dd HH:mm:ss", //活动开始时间
+          taskScore: 222 //活动积分
+        }
+      ],
+      perPage: 2
+    };
+  },
+  async mounted() {
+    // 请求列表数据
+    // const { data } = await this.reqContentListAPI({});
+    // this.initList = data;
+  },
+  methods: {
+    async reqContentListAPI(params) {
+      const res = await this.$http.get("/v1/article/list", params);
+      const { data } = res;
+      return {
+        data
+      };
+    },
+    onPageChange(index) {
+      console.log(index);
+    }
   }
 };
 </script>

@@ -218,8 +218,9 @@ export default {
       if (success) {
         this.clearForm();
         this.sending = false;
+        this.showDialog = false;
+        this.$emit("on-publish", true);
       }
-      this.showDialog = false;
     },
     validate() {
       this.$v.$touch();
