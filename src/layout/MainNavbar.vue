@@ -104,6 +104,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import FileUpload from "../views/components/FileUpload.vue";
+import bus from "@/utils/bus";
 
 let resizeTimeout;
 function resizeThrottler(actualResizeHandler) {
@@ -236,6 +237,7 @@ export default {
         this.sending = false;
         this.showDialog = false;
         this.$emit("on-publish", true);
+        bus.$emit("on-publish-success", true);
       }
     },
     validate() {
