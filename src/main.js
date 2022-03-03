@@ -13,6 +13,9 @@
 // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 import Vue from "vue";
+import VueAxios from "vue-axios";
+import axios from "./utils/http";
+
 import App from "./App.vue";
 import router from "./router";
 import MaterialKit from "./plugins/material-kit";
@@ -20,10 +23,16 @@ import MaterialKit from "./plugins/material-kit";
 Vue.config.productionTip = false;
 
 Vue.use(MaterialKit);
+Vue.use(VueAxios, axios);
 
 const NavbarStore = {
   showNavbar: false
 };
+
+// if (process.env.NODE_ENV === "development") {
+//   const { mockXHR } = require("./mock");
+//   mockXHR();
+// }
 
 Vue.mixin({
   data() {

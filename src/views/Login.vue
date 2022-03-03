@@ -10,7 +10,7 @@
               <h4 slot="title" class="card-title">Login</h4>
               <md-field class="md-form-group" slot="inputs">
                 <label>账号</label>
-                <md-input v-model="firstname"></md-input>
+                <md-input v-model="username"></md-input>
               </md-field>
 
               <md-field class="md-form-group" slot="inputs">
@@ -43,7 +43,7 @@ export default {
   bodyClass: "login-page",
   data() {
     return {
-      firstname: null,
+      username: null,
       password: null
     };
   },
@@ -54,13 +54,25 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
+    async reqLoginAPI(params) {
+      const res = await this.$http.post("/v1/user/login", params);
+      const { token } = res;
+      return {
+        token
+      };
+    },
+    async handleLogin() {
       // 请求登陆接口，返回 token 存到 cookie，过期时间临时设置 1h
       const millisecond = new Date().getTime();
       const expiresTime = new Date(millisecond + 60 * 1000 * 60);
-      const token = "123";
+      // 请求接口
+      // const { token } = await this.reqLoginAPI({
+      //   username: this.username,
+      //   password: this.password
+      // });
+      const token = "12";
       if (token) {
-        Cookies.set("CleanOcean-token", token, { expires: expiresTime });
+        Cookies.set("cleanOcean_token", token, { expires: expiresTime });
         this.$router.push("/home");
       }
     }
