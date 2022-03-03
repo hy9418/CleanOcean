@@ -20,7 +20,9 @@
       </div>
       <div class="section section-white">
         <div class="container">
-          <basic-elements></basic-elements>
+          <img
+            src="https://sitecdn.zcycdn.com/f2e-assets/9ba7353e-2130-48ed-a353-ad7beae53a3f.png"
+          />
         </div>
       </div>
     </div>
