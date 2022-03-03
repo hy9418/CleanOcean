@@ -7,7 +7,7 @@
           :per-page="perPage"
           loop
           :speed="700"
-          :autoplay="false"
+          :autoplay="true"
           :autoplay-timeout="5000"
           :minSwipeDistance="40"
           :mouse-drag="false"
@@ -135,9 +135,7 @@ export default {
         data
       };
     },
-    onPageChange(index) {
-      console.log(index);
-    }
+    onPageChange(index) {}
   }
 };
 </script>

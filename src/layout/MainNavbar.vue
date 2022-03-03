@@ -18,7 +18,10 @@
         </div>
       </div>
     </div>
-    <md-dialog style="width: 700px;" :md-active.sync="showDialog">
+    <md-dialog
+      style="width: 700px;max-height: 900px;"
+      :md-active.sync="showDialog"
+    >
       <div class="body text-center">
         <form novalidate @submit.prevent="validate">
           <md-card class="md-layout-item md-size-50 md-small-size-200">
@@ -61,25 +64,27 @@
                     >
                   </md-field>
                 </div>
-              </div>
 
-              <div class="md-layout-item md-small-size-200">
-                <md-field :class="getValidationClass('method')">
-                  <label for="method">参与方式</label>
-                  <md-input
-                    id="method"
-                    name="method"
-                    v-model="form.method"
-                    :disabled="sending"
-                  />
-                  <span class="md-error" v-if="!$v.form.method.required"
-                    >请输入</span
-                  >
-                  <span class="md-error" v-else-if="!$v.form.method.maxlength"
-                    >长度不合法</span
-                  >
-                </md-field>
+                <div class="md-layout-item md-small-size-200">
+                  <md-field :class="getValidationClass('method')">
+                    <label for="method">参与方式</label>
+                    <md-input
+                      id="method"
+                      name="method"
+                      v-model="form.method"
+                      :disabled="sending"
+                    />
+                    <span class="md-error" v-if="!$v.form.method.required"
+                      >请输入</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.method.maxlength"
+                      >长度不合法</span
+                    >
+                  </md-field>
+                </div>
               </div>
+              <!-- 图片上传 -->
+              <file-upload @on-upload="handleOnUpload" />
             </md-card-content>
           </md-card>
         </form>
@@ -98,6 +103,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import FileUpload from "../views/components/FileUpload.vue";
 
 let resizeTimeout;
 function resizeThrottler(actualResizeHandler) {
@@ -145,6 +151,9 @@ export default {
       default: 0
     }
   },
+  components: {
+    FileUpload
+  },
   mixins: [validationMixin],
   data() {
     return {
@@ -154,7 +163,8 @@ export default {
       form: {
         name: "",
         description: "",
-        method: ""
+        method: "",
+        formData: null
       },
       sending: false
     };
@@ -195,6 +205,12 @@ export default {
       return {
         success
       };
+    },
+    handleOnUpload(value) {
+      const formData = new FormData();
+      formData.append("file", value.file, value.filename);
+      console.log("formData", formData);
+      this.form.formData = formData;
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
