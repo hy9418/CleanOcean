@@ -55,6 +55,7 @@
 
 <script>
 import { NavTabsCard } from "@/components";
+import bus from "@/utils/bus";
 
 export default {
   components: {
@@ -123,9 +124,18 @@ export default {
     };
   },
   async mounted() {
-    // 请求列表数据
-    // const { data } = await this.reqContentListAPI({});
-    // this.initList = data;
+    bus.$on("on-publish-success", async value => {
+      if (value) {
+        // 发布成功后请求列表数据
+        const { data = [] } = await this.reqContentListAPI({});
+        this.initList = data;
+      }
+    });
+    // 初始化请求列表数据
+    const { data = [] } = await this.reqContentListAPI({});
+    if (data) {
+      this.initList = data;
+    }
   },
   methods: {
     async reqContentListAPI(params) {
