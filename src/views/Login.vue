@@ -4,49 +4,25 @@
       <div class="container">
         <div class="md-layout">
           <div
-            class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto"
+            class="md-layout-item md-size-33 md-medium-size-40 md-small-size-50 md-xsmall-size-70 mx-auto text-center"
           >
             <login-card header-color="green">
               <h4 slot="title" class="card-title">Login</h4>
-              <md-button
-                slot="buttons"
-                href="javascript:void(0)"
-                class="md-just-icon md-simple md-white"
-              >
-                <i class="fab fa-facebook-square"></i>
-              </md-button>
-              <md-button
-                slot="buttons"
-                href="javascript:void(0)"
-                class="md-just-icon md-simple md-white"
-              >
-                <i class="fab fa-twitter"></i>
-              </md-button>
-              <md-button
-                slot="buttons"
-                href="javascript:void(0)"
-                class="md-just-icon md-simple md-white"
-              >
-                <i class="fab fa-google-plus-g"></i>
-              </md-button>
-              <p slot="description" class="description">Or Be Classical</p>
               <md-field class="md-form-group" slot="inputs">
-                <md-icon>face</md-icon>
-                <label>First Name...</label>
-                <md-input v-model="firstname"></md-input>
+                <label>账号</label>
+                <md-input v-model="username"></md-input>
               </md-field>
+
               <md-field class="md-form-group" slot="inputs">
-                <md-icon>email</md-icon>
-                <label>Email...</label>
-                <md-input v-model="email" type="email"></md-input>
-              </md-field>
-              <md-field class="md-form-group" slot="inputs">
-                <md-icon>lock_outline</md-icon>
-                <label>Password...</label>
+                <label>密码</label>
                 <md-input v-model="password"></md-input>
               </md-field>
-              <md-button slot="footer" class="md-simple md-success md-lg">
-                Get Started
+              <md-button
+                slot="footer"
+                class="md-simple md-success md-lg"
+                @click="handleLogin()"
+              >
+                登入
               </md-button>
             </login-card>
           </div>
@@ -58,6 +34,7 @@
 
 <script>
 import { LoginCard } from "@/components";
+import Cookies from "js-cookie";
 
 export default {
   components: {
@@ -66,8 +43,7 @@ export default {
   bodyClass: "login-page",
   data() {
     return {
-      firstname: null,
-      email: null,
+      username: null,
       password: null
     };
   },
@@ -75,6 +51,30 @@ export default {
     header: {
       type: String,
       default: require("@/assets/img/profile_city.jpg")
+    }
+  },
+  methods: {
+    async reqLoginAPI(params) {
+      const res = await this.$http.post("/v1/user/login", params);
+      const { token } = res;
+      return {
+        token
+      };
+    },
+    async handleLogin() {
+      // 请求登陆接口，返回 token 存到 cookie，过期时间临时设置 1h
+      const millisecond = new Date().getTime();
+      const expiresTime = new Date(millisecond + 60 * 1000 * 60);
+      // 请求接口
+      // const { token } = await this.reqLoginAPI({
+      //   username: this.username,
+      //   password: this.password
+      // });
+      const token = "12";
+      if (token) {
+        Cookies.set("cleanOcean_token", token, { expires: expiresTime });
+        this.$router.push("/home");
+      }
     }
   },
   computed: {

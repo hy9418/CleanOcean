@@ -11,155 +11,94 @@
         <h3 class="md-title">净塑自然</h3>
       </div>
       <div class="md-toolbar-section-end">
-        <md-button
-          class="md-just-icon md-simple md-toolbar-toggle"
-          :class="{ toggled: toggledClass }"
-          @click="toggleNavbarMobile()"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </md-button>
-
-        <div class="md-collapse">
-          <div class="md-collapse-wrapper">
-            <mobile-menu nav-mobile-section-start="false">
-              <!-- Here you can add your items from the section-start of your toolbar -->
-            </mobile-menu>
-            <md-list>
-              <li class="md-list-item" v-if="!showDownload">
-                <a
-                  href="javascript:void(0)"
-                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                >
-                  <div class="md-list-item-content">
-                    <drop-down direction="down">
-                      <md-button
-                        slot="title"
-                        class="md-button md-button-link md-white md-simple dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        <i class="material-icons">apps</i>
-                        <p>Components</p>
-                      </md-button>
-                      <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
-                          <a href="#/">
-                            <i class="material-icons">layers</i>
-                            <p>All Components</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                          >
-                            <i class="material-icons">content_paste</i>
-                            <p>Documentation</p>
-                          </a>
-                        </li>
-                      </ul>
-                    </drop-down>
-                  </div>
-                </a>
-              </li>
-
-              <md-list-item
-                href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                target="_blank"
-                v-if="showDownload"
-              >
-                <i class="material-icons">content_paste</i>
-                <p>发布公益活动</p>
-              </md-list-item>
-
-              <md-list-item
-                href="javascript:void(0)"
-                @click="scrollToElement()"
-                v-if="showDownload"
-              >
-                <i class="material-icons">cloud_download</i>
-                <p>海洋巡逻</p>
-              </md-list-item>
-
-              <li class="md-list-item" v-else>
-                <a
-                  href="javascript:void(0)"
-                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                >
-                  <div class="md-list-item-content">
-                    <drop-down direction="down">
-                      <md-button
-                        slot="title"
-                        class="md-button md-button-link md-white md-simple dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        <i class="material-icons">view_carousel</i>
-                        <p>Examples</p>
-                      </md-button>
-                      <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
-                          <a href="#/landing">
-                            <i class="material-icons">view_day</i>
-                            <p>Landing Page</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#/login">
-                            <i class="material-icons">fingerprint</i>
-                            <p>Login Page</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#/profile">
-                            <i class="material-icons">account_circle</i>
-                            <p>Profile Page</p>
-                          </a>
-                        </li>
-                      </ul>
-                    </drop-down>
-                  </div>
-                </a>
-              </li>
-
-              <!-- <md-list-item
-                href="https://twitter.com/CreativeTim"
-                target="_blank"
-              >
-                <i class="fab fa-twitter"></i>
-                <p class="hidden-lg">Twitter</p>
-                <md-tooltip md-direction="bottom"
-                  >Follow us on Twitter</md-tooltip
-                >
-              </md-list-item>
-              <md-list-item
-                href="https://www.facebook.com/CreativeTim"
-                target="_blank"
-              >
-                <i class="fab fa-facebook-square"></i>
-                <p class="hidden-lg">Facebook</p>
-                <md-tooltip md-direction="bottom"
-                  >Like us on Facebook</md-tooltip
-                >
-              </md-list-item>
-              <md-list-item
-                href="https://www.instagram.com/CreativeTimOfficial"
-                target="_blank"
-              >
-                <i class="fab fa-instagram"></i>
-                <p class="hidden-lg">Instagram</p>
-                <md-tooltip md-direction="bottom"
-                  >Follow us on Instagram</md-tooltip
-                >
-              </md-list-item> -->
-            </md-list>
-          </div>
+        <div class="md-collapse" v-if="isShowRightBtns">
+          <md-button class="md-raised md-primary" @click="showDialog = true"
+            >发布</md-button
+          >
         </div>
       </div>
     </div>
+    <md-dialog style="width: 700px;" :md-active.sync="showDialog">
+      <div class="body text-center">
+        <form novalidate @submit.prevent="validate">
+          <md-card class="md-layout-item md-size-50 md-small-size-200">
+            <md-card-content>
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-200">
+                  <md-field :class="getValidationClass('name')">
+                    <label for="first-name">活动主题</label>
+                    <md-input
+                      name="name"
+                      id="name"
+                      v-model="form.name"
+                      :disabled="sending"
+                    />
+                    <span class="md-error" v-if="!$v.form.name.required"
+                      >请输入</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.name.minlength"
+                      >长度不合法</span
+                    >
+                  </md-field>
+                </div>
+
+                <div class="md-layout-item md-small-size-200">
+                  <md-field :class="getValidationClass('description')">
+                    <label for="description">详情介绍</label>
+                    <md-input
+                      name="description"
+                      id="descriptione"
+                      v-model="form.description"
+                      :disabled="sending"
+                    />
+                    <span class="md-error" v-if="!$v.form.description.required"
+                      >请输入</span
+                    >
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.description.minlength"
+                      >长度不合法</span
+                    >
+                  </md-field>
+                </div>
+              </div>
+
+              <div class="md-layout-item md-small-size-200">
+                <md-field :class="getValidationClass('method')">
+                  <label for="method">参与方式</label>
+                  <md-input
+                    id="method"
+                    name="method"
+                    v-model="form.method"
+                    :disabled="sending"
+                  />
+                  <span class="md-error" v-if="!$v.form.method.required"
+                    >请输入</span
+                  >
+                  <span class="md-error" v-else-if="!$v.form.method.maxlength"
+                    >长度不合法</span
+                  >
+                </md-field>
+              </div>
+            </md-card-content>
+          </md-card>
+        </form>
+      </div>
+
+      <div class="footer">
+        <md-button class="md-raised" @click="showDialog = false"
+          >关闭</md-button
+        >
+        <md-button class="md-raised md-primary" @click="sure()">确认</md-button>
+      </div>
+    </md-dialog>
   </md-toolbar>
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
+
 let resizeTimeout;
 function resizeThrottler(actualResizeHandler) {
   // ignore resize events as long as an actualResizeHandler execution is in the queue
@@ -173,11 +112,18 @@ function resizeThrottler(actualResizeHandler) {
   }
 }
 
-import MobileMenu from "@/layout/MobileMenu";
+// {
+// "id":1,
+// "name":"活动名称",
+// "filePath":"图片地址",
+// isDeleted:0,
+// "description":"活动描述",
+// "status":"UNDERWAY", //进行中UNDERWAY，已完成COMPLETED
+// "taskTime":"yyyy-MM-dd HH:mm:ss", //活动开始时间
+// "taskScore":222 //活动积分
+// }
+
 export default {
-  components: {
-    MobileMenu
-  },
   props: {
     type: {
       type: String,
@@ -199,19 +145,89 @@ export default {
       default: 0
     }
   },
+  mixins: [validationMixin],
   data() {
     return {
       extraNavClasses: "",
-      toggledClass: false
+      toggledClass: false,
+      showDialog: false,
+      form: {
+        name: "",
+        description: "",
+        method: ""
+      },
+      sending: false
     };
+  },
+  validations: {
+    form: {
+      name: {
+        required,
+        minLength: minLength(3)
+      },
+      description: {
+        required,
+        minLength: minLength(3)
+      },
+      method: {
+        required,
+        maxLength: maxLength(3)
+      }
+    }
   },
   computed: {
     showDownload() {
       const excludedRoutes = ["login", "landing", "profile"];
       return excludedRoutes.every(r => r !== this.$route.name);
+    },
+    isShowRightBtns() {
+      const path = this.$route.path;
+      return path === "/home";
     }
   },
   methods: {
+    sure() {
+      this.save();
+    },
+    async reqSubmitAPI(params) {
+      const res = await this.$http.post("/v1/article/content", params);
+      const { success } = res;
+      return {
+        success
+      };
+    },
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
+
+      if (field) {
+        return {
+          "md-invalid": field.$invalid && field.$dirty
+        };
+      }
+    },
+    clearForm() {
+      this.$v.$reset();
+      this.form.name = null;
+      this.form.description = null;
+      this.form.method = null;
+    },
+    async save() {
+      this.sending = true;
+      // 请求接口
+      const { success } = await this.reqSubmitAPI(this.form);
+      if (success) {
+        this.clearForm();
+        this.sending = false;
+      }
+      this.showDialog = false;
+    },
+    validate() {
+      this.$v.$touch();
+
+      // if (!this.$v.$invalid) {
+      //   this.save();
+      // }
+    },
     bodyClick() {
       let bodyClick = document.getElementById("bodyClick");
 
@@ -265,3 +281,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.body {
+  width: 100%;
+}
+.footer {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+</style>

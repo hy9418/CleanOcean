@@ -5,13 +5,7 @@
     :data-background-color="backgroundColor"
   >
     <div class="container">
-      <!-- <nav>
-        <ul>
-        </ul>
-      </nav> -->
-      <div class="copyright">
-        &copy; {{ year }}, made by 福布斯TOP9
-      </div>
+      <span class="copyright">&copy; {{ year }}</span>
     </div>
   </footer>
 </template>
@@ -28,4 +22,8 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+.container {
+  justify-content: center !important;
+}
+</style>
