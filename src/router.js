@@ -12,8 +12,8 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: "/",
-      name: "index",
+      path: "/home",
+      name: "home",
       components: { default: Index, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },

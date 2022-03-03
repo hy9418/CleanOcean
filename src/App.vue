@@ -9,3 +9,17 @@
     </div>
   </div>
 </template>
+
+<script>
+import Cookies from "js-cookie";
+
+export default {
+  mounted() {
+    // 从 cookie 获取 token， 判断是否登陆成功
+    const token = Cookies.get("CleanOcean-token");
+    if (!token) {
+      this.$router.replace("/login");
+    }
+  }
+};
+</script>
