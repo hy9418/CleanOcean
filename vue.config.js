@@ -8,7 +8,7 @@ module.exports = {
     }
   },
   devServer: {
-    // port: 3000,
+    port: 8081,
     open: true,
     overlay: {
       warnings: false,
@@ -16,5 +16,4 @@ module.exports = {
     },
     before: require('./src/mock/mock-server.js')
   },
-
 };

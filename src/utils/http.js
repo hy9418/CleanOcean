@@ -2,9 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 axios.defaults.timeout = 6000;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "development" ? "http://localhost:3030" : "http:";
+  process.env.NODE_ENV === "development" ? "http://localhost:8080" : "http:";
 
 axios.interceptors.request.use(function(config) {
   config.headers["Authorization"] = Cookies.get("cleanOcean_token");

@@ -6,7 +6,7 @@
           <div
             class="md-layout-item md-size-33 md-medium-size-40 md-small-size-50 md-xsmall-size-70 mx-auto text-center"
           >
-            <login-card header-color="green">
+            <login-card header-color="blue">
               <h4 slot="title" class="card-title">Login</h4>
               <md-field class="md-form-group" slot="inputs">
                 <label>账号</label>
@@ -15,7 +15,7 @@
 
               <md-field class="md-form-group" slot="inputs">
                 <label>密码</label>
-                <md-input v-model="password"></md-input>
+                <md-input type= password v-model="password"></md-input>
               </md-field>
               <md-button
                 slot="footer"
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     async reqLoginAPI(params) {
-      const res = await this.$http.post("/v1/user/login", params);
+      const res = await this.$http.post("/login", params);
       const { token } = res;
       return {
         token
@@ -66,11 +66,11 @@ export default {
       const millisecond = new Date().getTime();
       const expiresTime = new Date(millisecond + 60 * 1000 * 60);
       // 请求接口
-      // const { token } = await this.reqLoginAPI({
-      //   username: this.username,
-      //   password: this.password
-      // });
-      const token = "12";
+      const { token } = await this.reqLoginAPI({
+        username: this.username,
+        password: this.password
+      });
+      // const token = "12";
       if (token) {
         Cookies.set("cleanOcean_token", token, { expires: expiresTime });
         this.$router.push("/home");
